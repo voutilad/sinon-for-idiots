@@ -17,13 +17,11 @@
      (add-hook 'org-present-mode-hook
                (lambda ()
                  (org-present-big)
-                 (org-display-inline-images)
-                 (org-present-hide-cursor)))
+                 (org-display-inline-images)))
      (add-hook 'org-present-mode-quit-hook
                (lambda ()
                  (org-present-small)
-                 (org-remove-inline-images)
-                 (org-present-show-cursor)))))
+                 (org-remove-inline-images)))))
 
 (provide 'init-sinon-for-idiots)
 ;;; init-sinon-for-idiots.el ends here

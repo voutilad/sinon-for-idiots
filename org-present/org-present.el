@@ -58,10 +58,10 @@
 (defvar org-present-mode-keymap (make-keymap) "org-present-mode keymap.")
 
 ;; left and right page keys
-(define-key org-present-mode-keymap (kbd "<right>") 'org-present-next)
-(define-key org-present-mode-keymap (kbg "<left>")  'org-present-prev)
-(define-key org-present-mode-keymap (kbd "C-c C-=") 'org-present-big)
-(define-key org-present-mode-keymap (kbd "C-c C--") 'org-present-small)
+(define-key org-present-mode-keymap (kbd "<next>") 'org-present-next)
+(define-key org-present-mode-keymap (kbd "<prior>")  'org-present-prev)
+(define-key org-present-mode-keymap (kbd "C-c C-b") 'org-present-big)
+(define-key org-present-mode-keymap (kbd "C-c C-s") 'org-present-small)
 (define-key org-present-mode-keymap (kbd "C-c C-q") 'org-present-quit)
 (define-key org-present-mode-keymap (kbd "C-c C-r") 'org-present-read-only)
 (define-key org-present-mode-keymap (kbd "C-c C-w") 'org-present-read-write)

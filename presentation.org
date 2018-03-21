@@ -4,9 +4,15 @@
 #+DATE: 2018-03-21
 #+STARTUP: inlineimages showall
 
-* 0. Reticulating splines...
-  If you're reading this inside Emacs, execute this code to initialize
-  the environment to allow presentation mode and code execution.
+* 0. Reticulating Splines...
+  If you're reading this inside Emacs, execute this code block to initialize
+  the environment to allow presentation mode and live code execution.
+
+** Controls
+   - *Start* - M-x org-present
+   - *Next* - <page down>
+   - *Previous* - <page up>
+   - *Quit* - C-c C-q
 
 #+NAME: initialize-presentation
 #+BEGIN_SRC emacs-lisp :results value verbatim
@@ -19,26 +25,30 @@
   (shell-command-to-string "npm install")
 #+END_SRC
 #+RESULTS: initialize-presentation
-: "up to date in 0.125s
+: "up to date in 0.214s
 : "
 
-* 1. Your Idiot
+
+* 1. Your Idiot/Speaker
+
 ** Who am I?
    - Dave Voutila
    - [[mailto:dave@sisu.io]]
    - [[https://github.com/voutilad]]
 
 ** $WORK: Independent Software Consultant
-   - Sisu Integrated Services LLC
-   - Task Analytics
+   - (2+ years) Owner @ Sisu Integrated Services LLC - /Make the Complex Simple/
+   - (~1 year) Advisor @ [[https://taskanalytics.com][Task Analytics]] - /We measure Customer Intent/
 
 ** Background
-   - Java and Python
-     ~10 years presales engineer in enterprise software
-   - Javascript newbie
-     < 1 year in node.js backend dev (be gentle)
+   - *Java* and *Python*
+     > 10 years as a Sales Engineer for enterprise software companies
+   - *Javascript* newbie
+     < 1 year in *node.js* backend dev (be gentle, folks)
+
 
 * 2. So what's Sinon.JS?  
+
 ** Test-framework independent
    - Use mocha, ava, whatever...
 
@@ -51,13 +61,20 @@
    - Sometimes you just need to test what you have
    - You don't have functional purity
 
+
 * 3a. Spy vs. Spy
 ** Wrapping
    - Typically, spies "wrap" an existing method
    - Tell you if/how that method was used
 
+** Usages
+   - check code paths based on what gets called
+   - check calling arguments
+   - check return values
+
 ** Can be used for Anonymous functions
    - useful for replacing callbacks
+
 
 * 3b. Spy Sample Code
 #+NAME: spy-example
@@ -84,14 +101,21 @@
 : [ [ 'cool', { beans: 1337 } ] ]
 
 
-* 4a. Stubbin'
+* 4a. I didn't chose the Stub Life...
+
+** Get control of hard-to-test code
+   - Some code (/who, mine?/) is hard to isolate for unit testing
+   - Sometimes refactoring to support testing isn't an option
+   - Buys you time to reach pure functional nirvana
+
 ** External Systems
-   - RDBMS? Redis? /stub it/
-   - Isolate the code your testing from external crap
+   - RDBMS? Redis? /stub it out/
+   - Isolate the code you're testing from external crap
 
 ** Create test "state"
    - /If called with X, return Y/
    - Supports Promises
+
 
 * 4b. Stub Sample Code
 #+NAME: stub-example
@@ -121,13 +145,22 @@
 : After stubbing: Sup everyone
 : [ [ 'BTVJS' ] ]
 
+
 * 4c. Stubbing Modules
+  Some gotchas...
+
 ** Understand what the module exports
    - object: super easy 
    - class: use /.prototype/ (see previous exammples)
-   - function: 
+   - function: /ugh.../
+
+** The module-as-function Problem
+   - Too long to address here, but let's say
+     it's probably wise to refactor
+
 
 * 5a. Making a Mockery
+
 ** Setting Expectations
    - mocks are designed to verify expected behavior
    - you set expectations
@@ -136,6 +169,7 @@
 ** Mocks are a bit more challenging
    - designed to throw errors
    - therefore, can easily fail your tests
+
 
 * 5b. Mocks Code Example
 #+NAME: mock-example
@@ -168,13 +202,19 @@
 :     Expectation met: method([...]) at most once
 : undefined
 
-* 6a. Sandboxing
+
+* 6a. When I played in the Sandbox...
+  /...the cat kept covering me up./
+                    -- Rodney Dangerfield
+
 ** Super-duper Useful
    - manages complexity of numerous stubs & spies
    - simplifies setup/teardown
-** Doesn't Resolve Sequencing Issue
+
+** Doesn't Resolve Sequencing Issue!
    - You'll still need to test in serial
-   - But you should stop breaking tests :-)
+   - But it should help if Sinon is breaking tests :-)
+
 
 * 6b. Sandbox Code Example
 #+NAME: sandbox-example
@@ -213,7 +253,6 @@
 : undefined
 
 * 7. The End!
-  - Thanks!
 
 ** Continued Learning
    - Documentation: [[http://sinonjs.org/][Sinon.JS homepage]]
@@ -225,3 +264,5 @@
 ** Emacs Org-mode:
    - [[https://orgmode.org/][Org-mode Homepage]] (the magic of literate coding)
    - [[https://github.com/rlister/org-present][org-present]] (what's driving this presentation)
+
+** THANKS!!!
