@@ -14,27 +14,25 @@
         "NODE_PATH=${PWD}/node_modules node")
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
-
 #+RESULTS: initialize-presentation
 
 * 1. Your Idiot
 ** Who am I?
-   Dave Voutila
-   [[mailto:dave@sisu.io]]
-   [[https://github.com/voutilad]]
+   - Dave Voutila
+   - [[mailto:dave@sisu.io]]
+   - [[https://github.com/voutilad]]
 
 ** $WORK: Independent Software Consultant
    - Sisu Integrated Services LLC
    - Task Analytics
 
 ** Background
-   + Java and Python
+   - Java and Python
      ~10 years presales engineer in enterprise software
-   +Javascript newbie
+   - Javascript newbie
      ~1 year in node.js backend dev
 
-* 2. So what's Sinon.JS?
-  
+* 2. So what's Sinon.JS?  
 ** Test-framework independent
    - Use mocha, ava, whatever...
 ** Provides standalone spies, stubs, and mocks
@@ -42,46 +40,76 @@
    - stubs: replace behavior of methods
    - mocks: above plus can set expectations
 
-* 3. Spy vs. Spy
+* 3a. Spy vs. Spy
 ** Wrapping
-   + Typically, spies "wrap" an existing method
-   + Tell you if/how that method was used
+   - Typically, spies "wrap" an existing method
+   - Tell you if/how that method was used
 
-** Code:
+* 3b. Spy Sample Code
 #+NAME: what-is-sinon
-#+BEGIN_SRC js
+#+BEGIN_SRC js -n :results value verbatim
   'use strict'
   const sinon = require('sinon')
-  const spy = sinon.spy(Date.prototype, 'getTime')
+  const timeSpy = sinon.spy(Date.prototype, 'getTime')
 
   const time = new Date().getTime()
 
-  console.log(`spy.called: ${spy.called}`)
-  return time
+  console.log(`Current time: ${time}`)
+  console.log(`timeSpy.called?: ${timeSpy.called}`)
+
+  // You can call spies directly (if using as anon fn's)
+  const spy = sinon.spy()
+  spy('cool', { beans: 1337 })
+  console.log(spy.args)
 #+END_SRC
-
+** Results:
 #+RESULTS: what-is-sinon
-: spy.called: true
-: 1521650696453
+: Current time: 1521653607214
+: timeSpy.called?: true
+: [ [ 'cool', { beans: 1337 } ] ]
+: undefined
 
-* Stuff
 
+* 4a. Stubbin'
+** External Systems
+   - RDBMS? Redis? stub it
+   - Isolate the code your testing
+** Create test "state"
+   - /If called with X, return Y/
+   - Supports Promises
+
+* 4b. Stub Sample Code
 #+NAME: stub-example
-#+BEGIN_SRC js
+#+BEGIN_SRC js -n :results value verbatim
   'use strict'
   const sinon = require('sinon')
 
-  class Hey {
+  class Greeter {
     constructor () { }
-    sayHey (name) { `Hey ${name}!` }
+    sayHey (name) {
+      return `Oh, hi there ${name}!`
+    }
   }
 
-  const stub = sinon.stub(Hey.prototype, 'sayHey').returns('Hola!')
+  const greeter = new Greeter()
+  let msg = greeter.sayHey('BTVJS')
+  console.log(`Before stubbing: ${msg}`)
 
-  return new Hey().sayHey('dave')
+  const stub = sinon.stub(Greeter.prototype, 'sayHey').returns('Sup everyone')
+  msg = greeter.sayHey('BTVJS')
+  console.log(`After stubbing: ${msg}`)
+
+  return stub.args
 #+END_SRC
 
 #+RESULTS: stub-example
-: Hola!
+: Before stubbing: Oh, hi there BTVJS!
+: 'Sup everyone'
+
+* 4c. Stubbing Modules
+** Understand what the module exports
+   - object: super easy 
+   - class: use /.prototype/ (see previous exammples)
+   - function: 
 
 * More Stuff
