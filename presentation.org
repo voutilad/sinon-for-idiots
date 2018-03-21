@@ -30,23 +30,31 @@
    - Java and Python
      ~10 years presales engineer in enterprise software
    - Javascript newbie
-     ~1 year in node.js backend dev
+     < 1 year in node.js backend dev (be gentle)
 
 * 2. So what's Sinon.JS?  
 ** Test-framework independent
    - Use mocha, ava, whatever...
+
 ** Provides standalone spies, stubs, and mocks
    - spies: tell you if/how something was called
    - stubs: replace behavior of methods
    - mocks: above plus can set expectations
+
+** So why Sinon?
+   - Sometimes you just need to test what you have
+   - You don't have functional purity
 
 * 3a. Spy vs. Spy
 ** Wrapping
    - Typically, spies "wrap" an existing method
    - Tell you if/how that method was used
 
+** Can be used for Anonymous functions
+   - useful for replacing callbacks
+
 * 3b. Spy Sample Code
-#+NAME: what-is-sinon
+#+NAME: spy-example
 #+BEGIN_SRC js -n :results value verbatim
   'use strict'
   const sinon = require('sinon')
@@ -62,8 +70,9 @@
   spy('cool', { beans: 1337 })
   return spy.args
 #+END_SRC
-** Results:
-#+RESULTS: what-is-sinon
+
+** Results
+#+RESULTS: spy-example
 : Current time: 1521654082956
 : timeSpy.called?: true
 : [ [ 'cool', { beans: 1337 } ] ]
@@ -71,8 +80,9 @@
 
 * 4a. Stubbin'
 ** External Systems
-   - RDBMS? Redis? stub it
-   - Isolate the code your testing
+   - RDBMS? Redis? /stub it/
+   - Isolate the code your testing from external crap
+
 ** Create test "state"
    - /If called with X, return Y/
    - Supports Promises
@@ -101,6 +111,7 @@
   return stub.args
 #+END_SRC
 
+** Results
 #+RESULTS: stub-example
 : Before stubbing: Oh, hi there BTVJS!
 : After stubbing: Sup everyone
@@ -113,7 +124,99 @@
    - function: 
 
 * 5a. Making a Mockery
+** Setting Expectations
+   - mocks are designed to verify expected behavior
+   - you set expectations
+   - you then verify they were met
+
+** Mocks are a bit more challenging
+   - 
+
 * 5b. Mocks Code Example
+#+NAME: mock-example
+#+BEGIN_SRC js -n :results value verbatim
+  const sinon = require('sinon')
+  const API = { method: function () {} };
+
+  let mock = sinon.mock(API)
+  mock.expects('method').atLeast(1)
+
+  API.method()
+  console.log(`1st verify: ${mock.verify()}`)
+  mock.restore()
+
+  mock = sinon.mock(API).expects('method').atMost(1)
+
+  try {
+    API.method()
+    API.method()
+    console.log(`2nd verify: ${mock.verify()}`)
+  } catch (err) {
+    console.log(`2nd verify: ${err.message}`)
+  }
+#+END_SRC
+
+** Results:
+#+RESULTS: mock-example
+: 1st verify: true
+: 2nd verify: Unexpected call: method()
+:     Expectation met: method([...]) at most once
+: undefined
+
 * 6a. Sandboxing
+** Super-duper Useful
+   - manages complexity of numerous stubs & spies
+   - simplifies setup/teardown
+** Doesn't Resolve Sequencing Issue
+   - You'll still need to test in serial
+   - But you should stop breaking tests :-)
+
 * 6b. Sandbox Code Example
+#+NAME: sandbox-example
+#+BEGIN_SRC js -n :results value verbatim
+  const sinon = require('sinon')
+  const sandbox = sinon.createSandbox()
+  const crypto = require('crypto')
+
+  function randomNumber () {
+    try {
+      const date = new Date()
+      const number = crypto.randomBytes(1)[0] & date.getTime()
+      console.log(`The time is ${date}. Your "random" number is ${number}.`)
+    } catch (err) {
+      console.log(`ERROR! ${err.name}`)
+    }
+  }
+
+  sandbox.stub(Date.prototype, 'getTime').returns(872812800)
+  sandbox.stub(crypto, 'randomBytes').throws('not enough entropy!')
+  console.log('-- After Stubbing --')
+  randomNumber()
+
+  sandbox.restore()
+  console.log('\n-- After Restoring Sandbox --')
+  randomNumber()
+  return
+#+END_SRC
+
+#+RESULTS: sandbox-example
+: -- After Stubbing --
+: ERROR! not enough entropy!
+: 
+: -- After Restoring Sandbox --
+: The time is Wed Mar 21 2018 14:32:32 GMT-0400 (EDT). Your "random" number is 73.
+: undefined
+
 * 7. The End!
+  - Thanks!
+
+** Continued Learning
+   - Documentation: [[http://sinonjs.org/][Sinon.JS homepage]]
+   - More advanced Sinon Features!
+     - Fake timers
+     - Fake XHR or HTTP servers
+     - Sinon's assertion framework
+
+** Emacs Org-mode:
+   - [[https://orgmode.org/][Org-mode Homepage]] (the magic of literate coding)
+   - [[https://github.com/rlister/org-present][org-present]] (what's driving this presentation)
