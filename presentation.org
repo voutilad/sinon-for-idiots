@@ -1,0 +1,87 @@
+#+TITLE: An Idiots Guide to Sinon.JS
+#+AUTHOR: Dave Voutila
+#+EMAIL: dave@sisu.io
+#+DATE: 2018-03-21
+#+STARTUP: inlineimages showall
+
+* 0. Reticulating splines...
+#+NAME: initialize-presentation
+#+BEGIN_SRC emacs-lisp
+  (load-file "./init-sinon-for-idiots.el")
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((emacs-lisp . t) (js . t)))
+  (setq org-babel-js-cmd
+        "NODE_PATH=${PWD}/node_modules node")
+  (setq org-confirm-babel-evaluate nil)
+#+END_SRC
+
+#+RESULTS: initialize-presentation
+
+* 1. Your Idiot
+** Who am I?
+   Dave Voutila
+   [[mailto:dave@sisu.io]]
+   [[https://github.com/voutilad]]
+
+** $WORK: Independent Software Consultant
+   - Sisu Integrated Services LLC
+   - Task Analytics
+
+** Background
+   + Java and Python
+     ~10 years presales engineer in enterprise software
+   +Javascript newbie
+     ~1 year in node.js backend dev
+
+* 2. So what's Sinon.JS?
+  
+** Test-framework independent
+   - Use mocha, ava, whatever...
+** Provides standalone spies, stubs, and mocks
+   - spies: tell you if/how something was called
+   - stubs: replace behavior of methods
+   - mocks: above plus can set expectations
+
+* 3. Spy vs. Spy
+** Wrapping
+   + Typically, spies "wrap" an existing method
+   + Tell you if/how that method was used
+
+** Code:
+#+NAME: what-is-sinon
+#+BEGIN_SRC js
+  'use strict'
+  const sinon = require('sinon')
+  const spy = sinon.spy(Date.prototype, 'getTime')
+
+  const time = new Date().getTime()
+
+  console.log(`spy.called: ${spy.called}`)
+  return time
+#+END_SRC
+
+#+RESULTS: what-is-sinon
+: spy.called: true
+: 1521650696453
+
+* Stuff
+
+#+NAME: stub-example
+#+BEGIN_SRC js
+  'use strict'
+  const sinon = require('sinon')
+
+  class Hey {
+    constructor () { }
+    sayHey (name) { `Hey ${name}!` }
+  }
+
+  const stub = sinon.stub(Hey.prototype, 'sayHey').returns('Hola!')
+
+  return new Hey().sayHey('dave')
+#+END_SRC
+
+#+RESULTS: stub-example
+: Hola!
+
+* More Stuff
