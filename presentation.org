@@ -5,16 +5,22 @@
 #+STARTUP: inlineimages showall
 
 * 0. Reticulating splines...
+  If you're reading this inside Emacs, execute this code to initialize
+  the environment to allow presentation mode and code execution.
+
 #+NAME: initialize-presentation
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results value verbatim
   (load-file "./init-sinon-for-idiots.el")
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t) (js . t)))
   (setq org-babel-js-cmd
         "NODE_PATH=${PWD}/node_modules node")
   (setq org-confirm-babel-evaluate nil)
+  (shell-command-to-string "npm install")
 #+END_SRC
 #+RESULTS: initialize-presentation
+: "up to date in 0.125s
+: "
 
 * 1. Your Idiot
 ** Who am I?
@@ -56,7 +62,6 @@
 * 3b. Spy Sample Code
 #+NAME: spy-example
 #+BEGIN_SRC js -n :results value verbatim
-  'use strict'
   const sinon = require('sinon')
   const timeSpy = sinon.spy(Date.prototype, 'getTime')
 
@@ -68,6 +73,7 @@
   // You can call spies directly (if using as anon fn's)
   const spy = sinon.spy()
   spy('cool', { beans: 1337 })
+
   return spy.args
 #+END_SRC
 
@@ -90,11 +96,9 @@
 * 4b. Stub Sample Code
 #+NAME: stub-example
 #+BEGIN_SRC js -n :results value verbatim
-  'use strict'
   const sinon = require('sinon')
 
   class Greeter {
-    constructor () { }
     sayHey (name) {
       return `Oh, hi there ${name}!`
     }
@@ -130,7 +134,8 @@
    - you then verify they were met
 
 ** Mocks are a bit more challenging
-   - 
+   - designed to throw errors
+   - therefore, can easily fail your tests
 
 * 5b. Mocks Code Example
 #+NAME: mock-example

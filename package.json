@@ -1,0 +1,22 @@
+{
+  "name": "sinon-for-idiots",
+  "version": "1.0.0",
+  "description": "Idiots Guide to Sinon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Nothing to test!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voutilad/sinon-for-idiots.git"
+  },
+  "author": "Dave Voutila <dave@sisu.io>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/voutilad/sinon-for-idiots/issues"
+  },
+  "homepage": "https://github.com/voutilad/sinon-for-idiots#readme",
+  "dependencies": {
+    "sinon": "^4.4.8"
+  }
+}
