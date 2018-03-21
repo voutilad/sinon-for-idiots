@@ -60,14 +60,13 @@
   // You can call spies directly (if using as anon fn's)
   const spy = sinon.spy()
   spy('cool', { beans: 1337 })
-  console.log(spy.args)
+  return spy.args
 #+END_SRC
 ** Results:
 #+RESULTS: what-is-sinon
-: Current time: 1521653607214
+: Current time: 1521654082956
 : timeSpy.called?: true
 : [ [ 'cool', { beans: 1337 } ] ]
-: undefined
 
 
 * 4a. Stubbin'
@@ -104,7 +103,8 @@
 
 #+RESULTS: stub-example
 : Before stubbing: Oh, hi there BTVJS!
-: 'Sup everyone'
+: After stubbing: Sup everyone
+: [ [ 'BTVJS' ] ]
 
 * 4c. Stubbing Modules
 ** Understand what the module exports
@@ -112,4 +112,8 @@
    - class: use /.prototype/ (see previous exammples)
    - function: 
 
-* More Stuff
+* 5a. Making a Mockery
+* 5b. Mocks Code Example
+* 6a. Sandboxing
+* 6b. Sandbox Code Example
+* 7. The End!
