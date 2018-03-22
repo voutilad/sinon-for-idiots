@@ -6,9 +6,15 @@
 
 * 0. Reticulating Splines...
   If you're reading this inside Emacs, execute this code block to initialize
-  the environment to allow presentation mode and live code execution.
+  the environment to allow presentation mode and live code execution. Simply
+  move the cursor to within the code and use: C-c C-c
 
-** Controls
+  You should then see some output in the Results section.
+
+  You can now use the same command (C-c C-c) aka "org-ctrl-c-ctrl-c" (no lie)
+  to run any of the provided code directly from within this file.
+
+** Presentation Controls
    - *Start* - M-x org-present
    - *Next* - <page down>
    - *Previous* - <page up>
@@ -25,7 +31,7 @@
   (shell-command-to-string "npm install")
 #+END_SRC
 #+RESULTS: initialize-presentation
-: "up to date in 0.214s
+: "up to date in 0.123s
 : "
 
 
@@ -151,7 +157,7 @@
 
 ** Understand what the module exports
    - object: super easy 
-   - class: use /.prototype/ (see previous exammples)
+   - class: use /.prototype/ (see previous examples)
    - function: /ugh.../
 
 ** The module-as-function Problem
@@ -193,6 +199,7 @@
   } catch (err) {
     console.log(`2nd verify: ${err.message}`)
   }
+
 #+END_SRC
 
 ** Results:
@@ -214,6 +221,9 @@
 ** Doesn't Resolve Sequencing Issue!
    - You'll still need to test in serial
    - But it should help if Sinon is breaking tests :-)
+
+** Other Caveats
+   - can only stub/spy/mock exported or public things
 
 
 * 6b. Sandbox Code Example
@@ -241,7 +251,6 @@
   sandbox.restore()
   console.log('\n-- After Restoring Sandbox --')
   randomNumber()
-  return
 #+END_SRC
 
 #+RESULTS: sandbox-example
@@ -249,7 +258,7 @@
 : ERROR! not enough entropy!
 : 
 : -- After Restoring Sandbox --
-: The time is Wed Mar 21 2018 14:32:32 GMT-0400 (EDT). Your "random" number is 73.
+: The time is Thu Mar 22 2018 08:36:45 GMT-0400 (EDT). Your "random" number is 8.
 : undefined
 
 * 7. The End!
@@ -264,5 +273,8 @@
 ** Emacs Org-mode:
    - [[https://orgmode.org/][Org-mode Homepage]] (the magic of literate coding)
    - [[https://github.com/rlister/org-present][org-present]] (what's driving this presentation)
+
+** My Other Presentations
+   - [[https://voutilad.github.io/]]
 
 ** THANKS!!!
